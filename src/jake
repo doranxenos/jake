@@ -51,8 +51,6 @@ if $html_file && File::readable?($html_file)
   HTMLScriptParser::new(File::open($html_file)).scriptSrcs.each do |script|
     $js_files.push(dir + File::SEPARATOR + script)
   end
-
-  p $js_files
 end
 
 if $file_list
@@ -81,7 +79,9 @@ if $output
   if File::exists?($output)
     raise "Output file #{$output} already exists, unable to overwrite"
   else
-    File::open($output) << $built_str
+    file = File::open($output, 'w')
+    file << $built_str
+    file.close
   end
 else
   print $built_str, "\n"

@@ -4,7 +4,9 @@ class JSMinifier
 
   InlineCommentRegExp = /\/\/.*\n/
   BlockCommentRegExp = /\/\*.*?\*\//m
-  SpaceRegExp = /\s/m
+  SpaceRegExp = /\s{2,}/
+  NewLineRegExp = /\n/
+  BeginEndSpace = /(^\s|\s$)/
 
   @jsFile
   @minified
@@ -17,7 +19,9 @@ class JSMinifier
     @minified = @jsFile.read.
       gsub(InlineCommentRegExp, "").
       gsub(BlockCommentRegExp, "").
-      gsub(SpaceRegExp, " ")
+      gsub(SpaceRegExp, " ").
+      gsub(NewLineRegExp, "").
+      gsub(BeginEndSpace, "")
 
     return @minified
   end
