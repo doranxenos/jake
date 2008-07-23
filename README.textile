@@ -1,7 +1,9 @@
 h2. Jake: JavaScript Build Utility
 
 *Version: 0.0.1*
+
 *Author: Ben Rose (doranxenos@gmail.com)*
+
 *License: MIT License*
 
 Jake is a simple JavaScript Build Utility similar to make or rake.
