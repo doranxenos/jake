@@ -1,4 +1,5 @@
 require "rake"
+require "rake/clean"
 require "rake/gempackagetask"
 
 NAME = 'jake'
@@ -13,26 +14,20 @@ spec = Gem::Specification.new do |s|
   s.summary = "Simple build tool for JavaScript projects"
   s.bindir = "bin"
   s.description = s.summary
-  s.executables = %w( jake )
+  s.executables = [ "jake" ]
+  s.default_executable = "jake"
   s.require_path = "lib"
+  s.files = ["lib/jake/JSMinifier.rb", "lib/jake/HTMLScriptParser.rb", "lib/Jake.rb", "bin/jake"]
 end
+
+CLEAN.include [ "pkg", "*.gem" ]
 
 Rake::GemPackageTask.new(spec) do |package|
   package.gem_spec = spec
 end
 
+desc "Build gem and install it"
 task :install => :package do
-  sh %{#{sudo} gem install #{install_home} --local pkg/#{NAME}-#{VERSION}.gem --no-rdoc --no-ri}
+  sh %{gem install -w --local pkg/#{NAME}-#{VERSION}.gem --no-rdoc --no-ri}
 end
 
-desc "Builds the jake executable"
-task :build do
-  Dir::mkdir('bin') unless File::exists?('bin')
-  
-  Dir::foreach('src').each do |f|
-    if f =~ /.*?\.rb$/
-      
-    end
-  end
-  
-end
