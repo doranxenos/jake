@@ -1,0 +1,11 @@
+h2. Jake: JavaScript Build Utility
+
+*Version: 0.0.1*
+*Author: Ben Rose (doranxenos@gmail.com)*
+*License: MIT License*
+
+Jake is a simple JavaScript Build Utility similar to make or rake.
+
+It supports merging and minifying JavaScript files into a single file for deployment.  It can take either an html file with valid, src'd script tags for script merge ordering and/or a list of JavaScript file paths as command line arguments.
+
+Usage options are available by running: jake --help

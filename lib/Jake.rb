@@ -26,21 +26,37 @@ class Jake
   def run
     opt = GetoptLong::new(
                           ['--file-list', '-f', GetoptLong::NO_ARGUMENT],
-                          ['--html-parse', '-h', GetoptLong::REQUIRED_ARGUMENT],
+                          ['--src-parse', '-s', GetoptLong::REQUIRED_ARGUMENT],
                           ['--minify', '-m', GetoptLong::NO_ARGUMENT],
-                          ['--output', '-o', GetoptLong::REQUIRED_ARGUMENT]
+                          ['--output', '-o', GetoptLong::REQUIRED_ARGUMENT],
+                          ['--help', '-h', GetoptLong::NO_ARGUMENT]
                           )
 
     opt.each_option do |name, arg|
       case name
       when '--file-list'
         @file_list = true
-      when '--html-parse'
+      when '--src-parse'
         @html_file = arg
       when '--minify'
         @minify = true
       when '--output'
         @output = arg
+      when '--help'
+        print <<-EOF
+Jake is a build utility for JavaScript projects. It supports merging
+and minifying files by removing comments and extraneous lines and
+spaces.
+
+Supported Command Line options are:
+
+       --file-list, -f   Merge all files passed as command line arguments
+       --html-parse, -h  Merge all files referenced as 'src' attributes of
+                           script tags within the passed html file
+       --minify, -m      Remove extraneous lines, spaces, and comments
+       --output, -o      Put resulting merged JavaScript into specified file
+       --help, -h        Show this help info
+EOF
       end
     end
 
