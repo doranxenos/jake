@@ -10,6 +10,7 @@ class Jake
   @file_list = nil
   @html_file = nil
   @output = nil
+  @remove_newlines = false
 
   def get_file_list
     l = []
@@ -29,7 +30,8 @@ class Jake
                           ['--src-parse', '-s', GetoptLong::REQUIRED_ARGUMENT],
                           ['--minify', '-m', GetoptLong::NO_ARGUMENT],
                           ['--output', '-o', GetoptLong::REQUIRED_ARGUMENT],
-                          ['--help', '-h', GetoptLong::NO_ARGUMENT]
+                          ['--help', '-h', GetoptLong::NO_ARGUMENT],
+                          ['--remove-newlines', '-r', GetoptLong::NO_ARGUMENT]
                           )
 
     opt.each_option do |name, arg|
@@ -42,6 +44,8 @@ class Jake
         @minify = true
       when '--output'
         @output = arg
+      when '--remove-newlines'
+        @remove_newlines = true
       when '--help'
         print <<-EOF
 Jake is a build utility for JavaScript projects. It supports merging
@@ -50,12 +54,18 @@ spaces.
 
 Supported Command Line options are:
 
-       --file-list, -f   Merge all files passed as command line arguments
-       --html-parse, -h  Merge all files referenced as 'src' attributes of
-                           script tags within the passed html file
-       --minify, -m      Remove extraneous lines, spaces, and comments
-       --output, -o      Put resulting merged JavaScript into specified file
-       --help, -h        Show this help info
+       --file-list, -f       Merge all files passed as command line arguments
+
+       --html-parse, -h      Merge all files referenced as 'src' attributes of
+                             script tags within the passed html file
+
+       --minify, -m          Remove extraneous lines, spaces, and comments
+
+       --remove-newlines, -r Remove all newlines, THIS WILL BREAK SOME JAVASCRIPT CODE!!!
+
+       --output, -o          Put resulting merged JavaScript into specified file
+
+       --help, -h            Show this help info
 EOF
       end
     end
@@ -85,7 +95,7 @@ EOF
         js_file = File::open(js_file)
         
         if @minify
-          @built_str << JSMinifier::new(js_file).minified
+          @built_str << JSMinifier::new(js_file).minify(@remove_newlines)
         else
           @built_str << js_file.read << "\n"
         end

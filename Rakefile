@@ -31,3 +31,7 @@ task :install => :package do
   sh %{gem install -w --local pkg/#{NAME}-#{VERSION}.gem --no-rdoc --no-ri}
 end
 
+desc "Completely remove gem and clobber"
+task :uninstall => [:clobber_package, :clobber] do
+  sh %{gem uninstall #{NAME}}
+end
